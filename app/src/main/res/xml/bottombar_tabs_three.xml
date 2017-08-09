@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_authors"
+        icon="@drawable/ic_person_black_24dp"
+        title="Authors" />
+    <tab
+        id="@+id/tab_topics"
+        icon="@drawable/ic_subject_black_24dp"
+        title="Topics" />
+    <tab
+        id="@+id/tab_favorites"
+        icon="@drawable/ic_favorite_black_24dp"
+        title="Favorites" />
+</tabs>

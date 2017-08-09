@@ -1,0 +1,73 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    android:padding="@dimen/widget_margin"
+    android:textColor="#ffffff"
+    >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:baselineAligned="false">
+
+        <TextView
+            android:id="@+id/appwidget_title"
+            android:layout_weight="5"
+            android:layout_gravity="start|center"
+            android:text="@string/appwidget_title"
+            android:textColor="#ffffff"
+            android:ellipsize="end"
+            android:paddingStart="20dp"
+            android:paddingLeft="20dp"
+            android:maxLines="1"
+            android:textSize="@dimen/widget_title_text_size"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:textStyle="bold"/>
+
+        <ImageButton
+            android:id="@+id/appwidget_refresh_button"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:contentDescription="@string/refresh_button_description"
+            android:paddingEnd="20dp"
+            android:paddingRight="20dp"
+            android:paddingStart="20dp"
+            android:paddingLeft="20dp"
+            android:clickable="true"
+            android:background="?android:selectableItemBackground"
+            android:layout_gravity="end|center"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_refresh_white_24dp"/>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/appwidget_listview"
+        android:divider="@null"
+        android:paddingStart="@dimen/widget_margin"
+        android:paddingEnd="@dimen/widget_margin"
+        android:dividerHeight="0dp"
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+
+    <!--<TextView-->
+        <!--android:id="@+id/appwidget_text"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_gravity="start"-->
+        <!--android:layout_margin="8dp"-->
+        <!--android:layout_weight="4"-->
+        <!--android:contentDescription="@string/appwidget_text"-->
+        <!--android:text="@string/appwidget_text"-->
+        <!--android:textColor="#ffffff"-->
+        <!--android:textSize="@dimen/widget_body_text_size"/>-->
+
+</LinearLayout>

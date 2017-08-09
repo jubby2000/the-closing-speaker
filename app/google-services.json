@@ -1,0 +1,58 @@
+{
+  "project_info": {
+    "project_number": "344495718264",
+    "firebase_url": "https://the-closing-speaker.firebaseio.com",
+    "project_id": "the-closing-speaker",
+    "storage_bucket": "the-closing-speaker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:344495718264:android:3585efecf21c1b95",
+        "android_client_info": {
+          "package_name": "com.the_closing_speaker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "344495718264-hurb4625mqsnffch3eegelo9os0r54bi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.the_closing_speaker",
+            "certificate_hash": "11ad7735f6788331a7b68be60a6a12142722a453"
+          }
+        },
+        {
+          "client_id": "344495718264-hulu5gte924sricog20vo68n306op149.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "344495718264-0vdnltde9av48o5ne4qp6j3f9brd4npa.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "344495718264-fs8e59k7r1fch5829p0app1brsog3rs3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLXtRIhsK8_zLf8dC7FnzjM4L-d6QvYHo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

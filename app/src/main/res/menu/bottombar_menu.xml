@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/author_bar_item"
+        android:title="@string/author_bar_title"
+        android:icon="@drawable/ic_person_black_24dp"
+        />
+    <item android:id="@+id/topic_bar_item"
+        android:title="@string/topic_bar_title"
+        android:icon="@drawable/ic_subject_black_24dp"
+        />
+    <item android:id="@+id/favorite_bar_item"
+        android:title="@string/favorite_bar_title"
+        android:icon="@drawable/ic_favorite_black_24dp"
+        />
+</menu>

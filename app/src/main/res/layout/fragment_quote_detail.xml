@@ -1,0 +1,116 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.the_closing_speaker.QuoteDetailActivityFragment"
+    tools:showIn="@layout/activity_quote_detail">
+
+    <!--<TextView-->
+        <!--android:id="@+id/quote_detail_text_view"-->
+        <!--android:textIsSelectable="true"-->
+        <!--android:fontFamily="serif"-->
+        <!--android:transitionName="quote"-->
+        <!--android:textColor="@color/textColor"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        card_view:cardUseCompatPadding="true"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:id="@+id/card_view"
+        android:focusable="true"
+        android:clickable="true"
+        android:transitionName="card"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:stateListAnimator="@anim/card_elevation"
+        card_view:cardElevation="4dp"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="430dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/detail_author_view"
+                    android:transitionName="author"
+                    android:padding="12dp"
+                    android:gravity="center_vertical|start"
+                    android:layout_gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:textColor="@color/textColor"
+                    android:fontFamily="serif"
+                    android:layout_weight="7"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+                <ImageButton
+                    android:id="@+id/detail_favorite_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:padding="12dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|end"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_favorite_border_black_24dp"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:drawable/divider_horizontal_bright"/>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/detail_quote_view"
+                    android:padding="12dp"
+                    android:fontFamily="serif"
+                    android:transitionName="quote"
+                    android:textColor="@color/textColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </ScrollView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:drawable/divider_horizontal_bright"/>
+
+            <TextView
+                android:id="@+id/detail_reference_view"
+                android:padding="12dp"
+                android:fontFamily="serif"
+                android:transitionName="reference"
+                android:textColor="@color/textColor"
+                android:textStyle="italic"
+                android:gravity="end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</RelativeLayout>

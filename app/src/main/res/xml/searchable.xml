@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<searchable xmlns:android="http://schemas.android.com/apk/res/android"
+    android:label="@string/app_name"
+    android:searchSuggestAuthority="com.the_closing_speaker.MyContentProvider"
+    android:searchSuggestSelection=" ?"
+    android:searchSuggestThreshold="1"
+    android:searchSuggestIntentAction="android.intent.action.VIEW"
+    android:includeInGlobalSearch="true"
+    android:searchSuggestIntentData="content://com.the_closing_speaker.MyContentProvider/quotes"
+    android:hint="@string/search_hint" >
+</searchable>
