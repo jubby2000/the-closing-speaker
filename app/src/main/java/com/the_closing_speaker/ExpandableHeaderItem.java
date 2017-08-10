@@ -26,7 +26,7 @@ public class ExpandableHeaderItem extends HeaderItem implements ExpandableItem {
         // Initial icon state -- not animated.
         viewBinding.icon.setVisibility(View.VISIBLE);
         viewBinding.icon.setImageResource(expandableGroup.isExpanded() ? R.drawable.collapse : R.drawable.expand);
-        viewBinding.icon.setOnClickListener(new View.OnClickListener() {
+        viewBinding.headerItem.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
                 expandableGroup.onToggleExpanded();
                 bindIcon(viewBinding);

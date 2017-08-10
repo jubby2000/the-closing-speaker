@@ -48,7 +48,8 @@ public class HeaderItem extends BindableItem<ItemHeaderBinding> {
 
         if (iconResId > 0) {
             viewBinding.icon.setImageResource(iconResId);
-            viewBinding.icon.setOnClickListener(onIconClickListener);
+//            viewBinding.icon.setOnClickListener(onIconClickListener);
+            viewBinding.headerItem.setOnClickListener(onIconClickListener);
         }
         viewBinding.icon.setVisibility(iconResId > 0 ? View.VISIBLE : View.GONE);
     }
