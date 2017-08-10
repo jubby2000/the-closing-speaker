@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -416,5 +417,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public void onItemClick(View v) {
+        TextView textView = v.findViewById(R.id.text);
+        CharSequence text = textView.getText();
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra("Topic", text);
+        startActivity(intent);
     }
 }

@@ -163,16 +163,6 @@ public class MainActivityFragment extends Fragment {
 
     private void setData(TreeSet<String> topicSet, TreeSet<String> authorSet) {
 
-
-        for(String i : authorSet){
-            System.out.println(i);
-        }
-
-        for(String i : topicSet){
-            System.out.println(i);
-        }
-
-
         TreeSet<String> alphaTopicSet = new TreeSet<>();
         TreeSet<String> alphaAuthorSet = new TreeSet<>();
 
@@ -186,9 +176,6 @@ public class MainActivityFragment extends Fragment {
             String firstLetter = author.substring(0, 1);
             alphaAuthorSet.add(firstLetter);
         }
-
-//        GroupAdapter adapter = new GroupAdapter();
-
 
         if (extras == null) {
             //Run through for topics tab
@@ -259,6 +246,8 @@ public class MainActivityFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 
     public void scrollToTop() {
         mRecyclerView.smoothScrollToPosition(0);

@@ -13,6 +13,7 @@
             android:gravity="start|center_vertical"
             android:focusable="true"
             android:textColor="@color/textColor"
+            android:onClick="onItemClick"
             android:clickable="true"
             android:background="?android:attr/selectableItemBackground"
             android:paddingLeft="@dimen/topic_vertical_margin"
