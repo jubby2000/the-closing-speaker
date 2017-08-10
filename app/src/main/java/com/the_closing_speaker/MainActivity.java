@@ -49,6 +49,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
+import com.xwray.groupie.ExpandableGroup;
+import com.xwray.groupie.Group;
 
 public class MainActivity extends AppCompatActivity
         implements MainActivityFragment.OnFragmentInteractionListener,
@@ -197,12 +199,13 @@ public class MainActivity extends AppCompatActivity
                     mFavoriteFragment.scrollToTop();
                 }
                 if (tabId == R.id.tab_topics) {
-                    mTopicFragment.mAdapter.collapseAllParents();
+//                    mTopicFragment.mAdapter.getItemCount();
+//                    mTopicFragment
                     mTopicFragment.scrollToTop();
 
                 }
                 if (tabId == R.id.tab_authors) {
-                    mAuthorFragment.mAdapter.collapseAllParents();
+//                    mAuthorFragment.mAdapter.collapseAllParents();
                     mAuthorFragment.scrollToTop();
                 }
             }

@@ -29,6 +29,12 @@ public class ExpandableHeaderItem extends HeaderItem implements ExpandableItem {
         viewBinding.headerItem.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
                 expandableGroup.onToggleExpanded();
+                if (expandableGroup.isExpanded()) {
+                    viewBinding.subtitle.setVisibility(View.GONE);
+                } else {
+                    viewBinding.subtitle.setVisibility(View.VISIBLE);
+                }
+
                 bindIcon(viewBinding);
             }
         });

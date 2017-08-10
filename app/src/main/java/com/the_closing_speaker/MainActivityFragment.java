@@ -47,7 +47,8 @@ public class MainActivityFragment extends Fragment {
 
     private final String LOG_TAG = MainActivityFragment.class.getSimpleName();
 
-    AToZAdapter mAdapter;
+//    AToZAdapter mAdapter;
+    GroupAdapter mAdapter;
 
     private OnFragmentInteractionListener mListener;
     private ArrayList<Topic> topics;
@@ -68,6 +69,7 @@ public class MainActivityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         backgroundColor = ContextCompat.getColor(getContext(), com.the_closing_speaker.R.color.background);
+        mAdapter = new GroupAdapter();
 
     }
 
@@ -185,7 +187,7 @@ public class MainActivityFragment extends Fragment {
             alphaAuthorSet.add(firstLetter);
         }
 
-        GroupAdapter adapter = new GroupAdapter();
+//        GroupAdapter adapter = new GroupAdapter();
 
 
         if (extras == null) {
@@ -209,7 +211,7 @@ public class MainActivityFragment extends Fragment {
                         group.add(new CardItem(backgroundColor, t));
                     }
                 }
-                adapter.add(group);
+                mAdapter.add(group);
             }
         } else {
             //Run through for authors tab
@@ -232,13 +234,13 @@ public class MainActivityFragment extends Fragment {
                         group.add(new CardItem(backgroundColor, t));
                     }
                 }
-                adapter.add(group);
+                mAdapter.add(group);
             }
         }
 
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(adapter);
+        mRecyclerView.setAdapter(mAdapter);
 
         mProgressBar.setVisibility(View.GONE);
     }

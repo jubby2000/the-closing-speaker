@@ -3,17 +3,22 @@
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/listPreferredItemHeight"
-        android:background="@color/tw__solid_white"
+        android:layout_height="wrap_content"
+        android:background="@color/lightGray"
+        android:animateLayoutChanges="true"
         android:foreground="?android:attr/selectableItemBackground">
 
         <TextView
             android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/background"
+            android:gravity="start|center_vertical"
+            android:focusable="true"
+            android:textColor="@color/textColor"
+            android:clickable="true"
+            android:background="?android:attr/selectableItemBackground"
+            android:paddingLeft="@dimen/topic_vertical_margin"
+            android:paddingStart="@dimen/topic_vertical_margin"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/topic_list_item_vertical_spacing"
             tools:text="This is text here" />
 
     </FrameLayout>

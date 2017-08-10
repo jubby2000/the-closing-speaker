@@ -4,5 +4,5 @@
         android:duration="300"
         android:propertyName="rotation"
         android:valueFrom="180"
-        android:valueTo="360" xmlns:android="http://schemas.android.com/apk/res/android"/>
+        android:valueTo="0" xmlns:android="http://schemas.android.com/apk/res/android"/>
 </set>
