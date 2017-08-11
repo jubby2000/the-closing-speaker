@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity
     int REQUEST_INVITE = 0;
     public static Boolean mIsFavorite;
     public static int mFavoritePosition;
+    static boolean calledAlready = false;
     DetailCardViewAdapter mAdapter;
     MainActivityFragment mAuthorFragment;
     MainActivityFragment mTopicFragment;
@@ -78,7 +79,11 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        if (!calledAlready) {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            calledAlready = true;
+        }
+
         PACKAGE_NAME = getApplicationContext().getPackageName();
         mAuthorFragment = new MainActivityFragment();
         mTopicFragment = new MainActivityFragment();
