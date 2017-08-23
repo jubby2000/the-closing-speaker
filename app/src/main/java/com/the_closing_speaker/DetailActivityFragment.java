@@ -4,8 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +17,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.xwray.groupie.GroupAdapter;
+import com.xwray.groupie.Section;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeSet;
 
 
 /**
@@ -35,8 +52,13 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
 //    private SQLiteDatabase database;
     DetailCardViewAdapter mAdapter;
     private static final int LOADER = 0;
+    private int backgroundColor;
     private ArrayList<Quote> quotes;
     RecyclerView mRecyclerView;
+    FirebaseDatabase mDatabase;
+    DatabaseReference mRootRef;
+    DatabaseReference mQuoteRef;
+    GroupAdapter groupAdapter;
 
     public DetailActivityFragment() {
         // Required empty public constructor
@@ -45,6 +67,10 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mDatabase = FirebaseDatabase.getInstance();
+        mRootRef = mDatabase.getReference();
+        mQuoteRef = mRootRef.child("quotes");
+        backgroundColor = ContextCompat.getColor(getContext(), com.the_closing_speaker.R.color.background);
     }
 
     @Override
@@ -58,10 +84,11 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
 
         Bundle args = new Bundle();
         args.putString("uri", ExternalDbContract.QuoteEntry.CONTENT_URI.toString());
-        getLoaderManager().initLoader(LOADER, args, this);
+//        getLoaderManager().initLoader(LOADER, args, this);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.quote_list);
 
+        getData();
 
 
 //        recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -93,6 +120,65 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
         super.onDetach();
         mListener = null;
     }
+
+    private void getData() {
+
+        Query topicQuery = mQuoteRef.orderByChild("Topic");
+        groupAdapter = new GroupAdapter();
+
+        topicQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Section section = new Section();
+                int count = 0;
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    String topic = String.valueOf(data.child("Topic").getValue());
+                    String authorFirst = String.valueOf(data.child("Author First Name").getValue());
+                    String authorLast = String.valueOf(data.child("Author Last Name").getValue());
+                    String authorGroup = String.valueOf(data.child("Author Group Name").getValue());
+                    String quote = String.valueOf(data.child("Quote").getValue());
+                    String reference = String.valueOf(data.child("Reference").getValue());
+                    String pageNumber = String.valueOf(data.child("Page Number").getValue());
+                    String date = String.valueOf(data.child("Date").getValue());
+                    String quoteKey = data.getKey();
+                    String fullRef;
+                    String fullAuth;
+
+
+                    if (date.equals("null") && !pageNumber.equals("null")){
+                        fullRef = reference + ", " + pageNumber;
+                    } else if (!date.equals("null") && pageNumber.equals("null")) {
+                        fullRef = reference + ", " + date;
+                    } else {
+                        fullRef = reference + ", " + date + ", " + pageNumber;
+                    }
+
+                    if (authorGroup.equals("null")) {
+                        fullAuth = authorFirst + " " + authorLast;
+                    } else {
+                        fullAuth = authorGroup;
+                    }
+
+                    count++;
+                    if (topic.equals(getActivity().getIntent().getStringExtra("Topic"))) {
+                        section.add(new HeartCardItem(backgroundColor, count, onFavoriteListener, fullAuth, quote, fullRef, quoteKey));
+
+                    }
+
+                }
+                groupAdapter.add(section);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setAdapter(groupAdapter);
+    }
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -216,4 +302,39 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
         counter++;
     }
 
-}
+        private Handler handler = new Handler();
+        private HeartCardItem.OnFavoriteListener onFavoriteListener = new HeartCardItem.OnFavoriteListener() {
+            @Override
+            public void onFavorite(final HeartCardItem item, final boolean favorite) {
+                // Pretend to make a network request
+//                item.setFavorite(favorite);
+//                item.notifyChanged(HeartCardItem.FAVORITE);
+                String email = "";
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    email = user.getEmail();
+                    email = email.replace(".", ",");
+                    }
+
+                final DatabaseReference favoriteRef = mRootRef.child("favorites/" + email);
+                final DatabaseReference newFavorite = favoriteRef.push();
+                final Query queryRef = favoriteRef.orderByValue().equalTo(item.getQuoteKey());
+
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!favorite) {
+                            queryRef.getRef().removeValue();
+                        } else {
+                            newFavorite.setValue(item.getQuoteKey());
+                        }
+                        // Network request was successful!
+                        Log.v(LOG_TAG, String.valueOf(favorite));
+                        item.setFavorite(favorite);
+                        item.notifyChanged(HeartCardItem.FAVORITE);
+                    }
+                }, 0);
+            }
+        };
+
+    }

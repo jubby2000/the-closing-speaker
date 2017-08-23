@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity
 //        , NavigationView.OnNavigationItemSelectedListener
 {
 
+    public static final String INSET_TYPE_KEY = "inset_type";
+    public static final String INSET = "inset";
     final String LOG_TAG = MainActivity.class.getSimpleName();
     private BottomBar mBottomBar;
     public static String PACKAGE_NAME;
