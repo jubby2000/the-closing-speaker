@@ -35,7 +35,7 @@ android {
         targetSdkVersion 26
         versionCode 7
         versionName "1.0.6"
-        vectorDrawables.useSupportLibrary = true
+        vectorDrawables.useSupportLibrary true
         multiDexEnabled true
     }
     buildTypes {
@@ -44,6 +44,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
+            debuggable true
         }
     }
     dexOptions {
@@ -85,6 +86,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.xwray:groupie:2.0.0-alpha2'
     compile 'com.xwray:groupie-databinding:2.0.0-alpha2'
+    compile 'com.robinhood.ticker:ticker:1.2.0'
     testCompile 'junit:junit:4.12'
 }
 

@@ -37,12 +37,29 @@
                     android:layout_gravity="center_vertical"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_toStartOf="@+id/favorite"
-                    android:layout_toLeftOf="@+id/favorite"
+                    android:layout_toStartOf="@+id/favorite_section"
+                    android:layout_toLeftOf="@+id/favorite_section"
                     android:textStyle="bold"
                     android:fontFamily="serif"
                     android:textColor="@color/textColor"
                     tools:text="This is text here" />
+
+                <LinearLayout
+                    android:id="@+id/favorite_section"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="horizontal">
+
+                <com.robinhood.ticker.TickerView
+                    android:id="@+id/favorite_counter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/lightGray"
+                    android:text="test"/>
 
                 <com.the_closing_speaker.CheckableImageView
                     android:id="@+id/favorite"
@@ -56,6 +73,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     app:srcCompat="@drawable/favorite_state_list" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 

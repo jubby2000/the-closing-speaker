@@ -26,6 +26,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.robinhood.ticker.TickerUtils;
+import com.robinhood.ticker.TickerView;
 import com.xwray.groupie.GroupAdapter;
 import com.xwray.groupie.Section;
 
@@ -43,7 +45,7 @@ import java.util.TreeSet;
  * Use the {@link DetailActivityFragment#} factory method to
  * create an instance of this fragment.
  */
-public class DetailActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class DetailActivityFragment extends Fragment {
 
     final String LOG_TAG = DetailActivityFragment.class.getSimpleName();
 
@@ -59,6 +61,9 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     DatabaseReference mRootRef;
     DatabaseReference mQuoteRef;
     GroupAdapter groupAdapter;
+    String mUserId;
+    String mTopicExtra;
+    TickerView mTickerView;
 
     public DetailActivityFragment() {
         // Required empty public constructor
@@ -67,10 +72,13 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         mDatabase = FirebaseDatabase.getInstance();
         mRootRef = mDatabase.getReference();
         mQuoteRef = mRootRef.child("quotes");
         backgroundColor = ContextCompat.getColor(getContext(), com.the_closing_speaker.R.color.background);
+        mUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mTopicExtra = getActivity().getIntent().getStringExtra("Topic");
     }
 
     @Override
@@ -140,7 +148,10 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
                     String reference = String.valueOf(data.child("Reference").getValue());
                     String pageNumber = String.valueOf(data.child("Page Number").getValue());
                     String date = String.valueOf(data.child("Date").getValue());
+                    String favorite = String.valueOf(data.child("Favorite").child(mUserId).getValue());
+                    String favoriteCount = String.valueOf(data.child("Favorite").getChildrenCount());
                     String quoteKey = data.getKey();
+                    boolean isFavorite;
                     String fullRef;
                     String fullAuth;
 
@@ -159,9 +170,14 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
                         fullAuth = authorGroup;
                     }
 
+                    if (favorite.equals("true")) {
+                        isFavorite = true;
+                    } else {
+                        isFavorite = false;
+                    }
                     count++;
-                    if (topic.equals(getActivity().getIntent().getStringExtra("Topic"))) {
-                        section.add(new HeartCardItem(backgroundColor, count, onFavoriteListener, fullAuth, quote, fullRef, quoteKey));
+                    if (topic.equals(mTopicExtra)) {
+                        section.add(new HeartCardItem(backgroundColor, count, onFavoriteListener, fullAuth, quote, fullRef, quoteKey, isFavorite, favoriteCount));
 
                     }
 
@@ -180,101 +196,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     }
 
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        Uri uri = Uri.parse(args.getString("uri"));
-
-        switch (id) {
-            case LOADER:
-                // Returns a new CursorLoader
-                return new CursorLoader(
-                        getActivity(),   // Parent activity context
-                        uri,        // Uri to query
-                        new String[]{ExternalDbContract.QuoteEntry.QUOTE_ID,
-                                "\"" + ExternalDbContract.QuoteEntry.AUTHOR_FIRST_NAME + "\"",
-                                "\"" + ExternalDbContract.QuoteEntry.AUTHOR_LAST_NAME + "\"",
-                                "\"" + ExternalDbContract.QuoteEntry.AUTHOR_GROUP_NAME + "\"",
-                                ExternalDbContract.QuoteEntry.QUOTE,
-                                ExternalDbContract.QuoteEntry.TOPIC,
-                                ExternalDbContract.QuoteEntry.REFERENCE,
-                                ExternalDbContract.QuoteEntry.DATE,
-                                "\"" + ExternalDbContract.QuoteEntry.PAGE_NUMBER + "\"",
-                                ExternalDbContract.QuoteEntry.FAVORITE},     // Projection to return (all columns)
-                        null,            // No selection clause
-                        null,            // No selection arguments
-                        null             // Default sort order
-                );
-            default:
-                // An invalid id was passed in
-                return null;
-        }
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor quoteCursor) {
-
-        quotes = new ArrayList<Quote>();
-
-        String currentTopic = getActivity().getIntent().getStringExtra("Topic");
-
-        if (quoteCursor != null) {
-            quoteCursor.moveToFirst();
-            if (!quoteCursor.isAfterLast()) {
-                do {
-                    long id = quoteCursor.getLong(0);
-                    String firstName = quoteCursor.getString(1);
-                    String lastName = quoteCursor.getString(2);
-                    String groupName = quoteCursor.getString(3);
-                    String quote = quoteCursor.getString(4);
-                    String topic = quoteCursor.getString(5);
-                    String reference = quoteCursor.getString(6);
-                    String date = quoteCursor.getString(7);
-                    String pageNumber = quoteCursor.getString(8);
-//                    String popularity = quoteCursor.getString(9);
-                    String strFavorite = quoteCursor.getString(9);
-//                    String userSubmitted = quoteCursor.getString(11);
-//                    String flagged = quoteCursor.getString(12);
-
-                    boolean favorite = false;
-
-                    if (strFavorite.equals("false")) {
-                        favorite = false;
-                    } else if (strFavorite.equals("true")) {
-                        favorite = true;
-                    }
-
-                    if (currentTopic == null && favorite) {
-                        quotes.add(new Quote(id, firstName, lastName, groupName, topic, quote,
-                                reference, date, pageNumber, favorite));
-                    }
-
-                    if (currentTopic != null) {
-                        if (currentTopic.equals(topic)) {
-                            quotes.add(new Quote(id, firstName, lastName, groupName, topic, quote,
-                                    reference, date, pageNumber, favorite));
-                        } else if (currentTopic.equals(firstName + " " + lastName)) {
-                            quotes.add(new Quote(id, firstName, lastName, groupName, topic, quote,
-                                    reference, date, pageNumber, favorite));
-                        } else if (currentTopic.equals(groupName)) {
-                            quotes.add(new Quote(id, firstName, lastName, groupName, topic, quote,
-                                    reference, date, pageNumber, favorite));
-                        }
-                    }
-
-
-                } while (quoteCursor.moveToNext());
-
-            }
-            mAdapter = new DetailCardViewAdapter(this.getContext(), quotes);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            mRecyclerView.setAdapter(mAdapter);
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-    }
 
 
     /**
@@ -296,45 +218,55 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     public void onResume() {
         Log.v(LOG_TAG, "onResume is called.");
         super.onResume();
-        if (counter > 0) {
-            mAdapter.notifyItemChanged(DetailActivity.getFavoritePosition());
-        }
-        counter++;
+//        if (counter > 0) {
+//            mAdapter.notifyItemChanged(DetailActivity.getFavoritePosition());
+//        }
+//        counter++;
     }
 
-        private Handler handler = new Handler();
-        private HeartCardItem.OnFavoriteListener onFavoriteListener = new HeartCardItem.OnFavoriteListener() {
-            @Override
-            public void onFavorite(final HeartCardItem item, final boolean favorite) {
-                // Pretend to make a network request
-//                item.setFavorite(favorite);
-//                item.notifyChanged(HeartCardItem.FAVORITE);
-                String email = "";
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (user != null) {
-                    email = user.getEmail();
-                    email = email.replace(".", ",");
-                    }
+    private Handler handler = new Handler();
+    private HeartCardItem.OnFavoriteListener onFavoriteListener = new HeartCardItem.OnFavoriteListener() {
+        @Override
+        public void onFavorite(final HeartCardItem item, final boolean favorite) {
 
-                final DatabaseReference favoriteRef = mRootRef.child("favorites/" + email);
-                final DatabaseReference newFavorite = favoriteRef.push();
-                final Query queryRef = favoriteRef.orderByValue().equalTo(item.getQuoteKey());
+            final DatabaseReference favoriteRef = mQuoteRef.child(item.getQuoteKey() + "/Favorite/");
+            final DatabaseReference userRef = favoriteRef.child(mUserId);
+            final Map<String, String> favoriteMap = new HashMap<>();
+            favoriteMap.put(mUserId, "true");
 
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (!favorite) {
-                            queryRef.getRef().removeValue();
-                        } else {
-                            newFavorite.setValue(item.getQuoteKey());
+            Log.v("LOG_TAG", "favorite is " + favorite);
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    item.setFavorite(favorite);
+                    item.notifyChanged(HeartCardItem.FAVORITE);
+
+                    favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if(dataSnapshot.hasChild(mUserId)) {
+                                userRef.removeValue();
+//                                item.setIsFavorite(false);
+//                                item.setIsFavorite(false);
+                            } else {
+                                favoriteRef.setValue(favoriteMap);
+//                                item.setIsFavorite(true);
+                            }
                         }
-                        // Network request was successful!
-                        Log.v(LOG_TAG, String.valueOf(favorite));
-                        item.setFavorite(favorite);
-                        item.notifyChanged(HeartCardItem.FAVORITE);
-                    }
-                }, 0);
-            }
-        };
 
-    }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+//                    item.setFavorite(favorite);
+//                    item.notifyChanged(HeartCardItem.FAVORITE);
+                }
+            }, 0);
+        }
+    };
+
+}
