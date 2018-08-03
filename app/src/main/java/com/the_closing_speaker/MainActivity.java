@@ -224,7 +224,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     public static Intent createIntent(Context context, IdpResponse idpResponse) {
-        Intent in = IdpResponse.getIntent(idpResponse);
+//        Intent in = IdpResponse.getIntent(idpResponse);
+        Intent in = idpResponse == null ? new Intent() : idpResponse.toIntent();
         in.setClass(context, MainActivity.class);
         return in;
     }

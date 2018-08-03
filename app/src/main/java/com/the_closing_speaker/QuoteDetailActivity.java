@@ -33,8 +33,8 @@ public class QuoteDetailActivity extends AppCompatActivity {
 
 //        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            Transition fade = new Fade();
-//            fade.excludeTarget(android.R.id.statusBarBackground, true);
-//            fade.excludeTarget(android.R.id.navigationBarBackground, true);
+//            fade.excludeTarget(android.R.key.statusBarBackground, true);
+//            fade.excludeTarget(android.R.key.navigationBarBackground, true);
 //            getWindow().setEnterTransition(fade);
 //            getWindow().setExitTransition(fade);
 //        }
@@ -58,9 +58,9 @@ public class QuoteDetailActivity extends AppCompatActivity {
         CharSequence quote = getIntent().getCharSequenceExtra("quote");
         String reference = getIntent().getStringExtra("reference");
         final int position = getIntent().getIntExtra("position", 0);
-        final long id = getIntent().getLongExtra("id", 0);
+        final String key = getIntent().getStringExtra("key");
         isFavorite = getIntent().getBooleanExtra("favorite", false);
-        Log.v(LOG_TAG, String.valueOf(id));
+        Log.v(LOG_TAG, String.valueOf(key));
 
         final TextView authorText = (TextView) findViewById(R.id.detail_author_view);
         final TextView quoteText = (TextView) findViewById(R.id.detail_quote_view);
@@ -160,7 +160,7 @@ public class QuoteDetailActivity extends AppCompatActivity {
                 UpdateDataTask updateTask =
                         new UpdateDataTask(getApplicationContext());
                 updateTask.execute(ExternalDbContract.QuoteEntry.TABLE_NAME, values, "_id="
-                        + id, null);
+                        + key, null);
 
 
             }

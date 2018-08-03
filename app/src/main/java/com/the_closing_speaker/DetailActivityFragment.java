@@ -1,6 +1,7 @@
 package com.the_closing_speaker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -177,7 +178,9 @@ public class DetailActivityFragment extends Fragment {
                     }
                     count++;
                     if (topic.equals(mTopicExtra)) {
-                        section.add(new HeartCardItem(backgroundColor, count, onFavoriteListener, fullAuth, quote, fullRef, quoteKey, isFavorite, favoriteCount));
+                        section.add(new HeartCardItem(backgroundColor, count, onClickListener,
+                                onFavoriteListener, fullAuth, quote, fullRef, quoteKey,
+                                isFavorite, favoriteCount));
 
                     }
 
@@ -225,6 +228,19 @@ public class DetailActivityFragment extends Fragment {
     }
 
     private Handler handler = new Handler();
+    private HeartCardItem.OnClickListener onClickListener = new HeartCardItem.OnClickListener() {
+        @Override
+        public void onClick(HeartCardItem item, int position) {
+            Intent intent = new Intent(DetailActivityFragment.this.getActivity(), QuoteDetailActivity.class);
+            intent.putExtra("key", item.getQuoteKey());
+            intent.putExtra("author", item.getAuthor());
+            intent.putExtra("quote", item.getQuote());
+            intent.putExtra("reference", item.getReference());
+            intent.putExtra("position", position);
+            intent.putExtra("favorite", item.getIsFavorite());
+            startActivity(intent);
+        }
+    };
     private HeartCardItem.OnFavoriteListener onFavoriteListener = new HeartCardItem.OnFavoriteListener() {
         @Override
         public void onFavorite(final HeartCardItem item, final boolean favorite) {

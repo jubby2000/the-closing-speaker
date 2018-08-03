@@ -28,7 +28,7 @@ android {
         }
     }
     compileSdkVersion 26
-    buildToolsVersion '26.0.1'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.the_closing_speaker"
         minSdkVersion 16
@@ -57,33 +57,41 @@ android {
 repositories {
     jcenter();
     maven { url 'https://maven.fabric.io/public' }
+    google()
 }
 
 dependencies {
     provided fileTree(include: ['*.jar'], dir: 'libs')
 
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
-    compile 'com.android.support:customtabs:26.0.0-alpha1'
-    compile 'com.android.support:palette-v7:26.0.0-alpha1'
-    compile 'com.android.support:design:26.0.0-alpha1'
-    compile 'com.android.support:support-v4:26.0.0-alpha1'
-    compile 'com.android.support:cardview-v7:26.0.0-alpha1'
-    compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.google.android.gms:play-services-auth:11.0.4'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:customtabs:26.1.0'
+    compile 'com.android.support:palette-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
+    compile 'com.android.support:support-v4:26.1.0'
+    compile 'com.android.support:cardview-v7:26.1.0'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
+    compile 'com.android.support:multidex:1.0.3'
+
+    compile 'com.google.android.gms:play-services-auth:15.0.1'
     compile 'com.bignerdranch.android:expandablerecyclerview:2.1.1'
     compile 'com.roughike:bottom-bar:2.3.1'
-    compile 'com.google.firebase:firebase-invites:11.0.4'
-    compile 'com.google.firebase:firebase-core:11.0.4'
-    compile 'com.google.firebase:firebase-database:11.0.4'
-    compile 'com.google.firebase:firebase-auth:11.0.4'
-    compile 'com.google.firebase:firebase-ads:11.0.4'
-    compile 'com.firebaseui:firebase-ui-database:1.2.0'
-    compile 'com.firebaseui:firebase-ui-auth:1.2.0'
-    compile 'com.firebaseui:firebase-ui-storage:1.2.0'
-    compile 'com.firebaseui:firebase-ui:1.2.0'
-//    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    compile 'com.google.firebase:firebase-invites:15.0.1'
+    compile 'com.google.firebase:firebase-core:15.0.2'
+    compile 'com.google.firebase:firebase-database:15.0.1'
+    compile 'com.google.firebase:firebase-auth:15.1.0'
+    compile 'com.google.firebase:firebase-ads:15.0.1'
+    compile 'com.google.firebase:firebase-firestore:16.0.0'
+    compile 'com.google.firebase:firebase-storage:15.0.2'
+
+    compile 'com.firebaseui:firebase-ui-database:3.1.0'
+    compile 'com.firebaseui:firebase-ui-auth:3.1.0'
+    compile 'com.firebaseui:firebase-ui-storage:3.1.0'
+    compile 'com.firebaseui:firebase-ui:3.1.0'
+
+    compile 'com.facebook.android:facebook-android-sdk:4.27.0'
+    compile 'com.twitter.sdk.android:twitter:3.1.1'
+    compile 'com.android.support.constraint:constraint-layout:1.1.0'
     compile 'com.xwray:groupie:2.0.0-alpha2'
     compile 'com.xwray:groupie-databinding:2.0.0-alpha2'
     compile 'com.robinhood.ticker:ticker:1.2.0'

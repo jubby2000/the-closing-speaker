@@ -3,6 +3,7 @@ package com.the_closing_speaker;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.graphics.drawable.Animatable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -45,10 +46,12 @@ public class HeartCardItem extends BindableItem<ItemHeartCardBinding> {
     @ColorInt
     private int colorRes;
     private OnFavoriteListener onFavoriteListener;
+    private OnClickListener onClickListener;
     private boolean checked = false;
     private boolean inProgress = false;
 
-    public HeartCardItem(@ColorInt int colorRes, long id, OnFavoriteListener onFavoriteListener,
+    public HeartCardItem(@ColorInt int colorRes, long id, OnClickListener onClickListener,
+                         OnFavoriteListener onFavoriteListener,
                          String authorStringResId, String quoteStringResId,
                          String referenceStringResId, String quoteKeyStringResId,
                          boolean isFavorite, String favoriteCount) {
@@ -59,6 +62,7 @@ public class HeartCardItem extends BindableItem<ItemHeartCardBinding> {
         this.quoteKeyStringResId = quoteKeyStringResId;
         this.colorRes = colorRes;
         this.onFavoriteListener = onFavoriteListener;
+        this.onClickListener = onClickListener;
         this.isFavorite = isFavorite;
         this.favoriteCount = favoriteCount;
         getExtras().put(MainActivity.INSET_TYPE_KEY, MainActivity.INSET);
@@ -71,6 +75,18 @@ public class HeartCardItem extends BindableItem<ItemHeartCardBinding> {
 
     public String getQuoteKey() {
         return quoteKeyStringResId;
+    }
+    public String getAuthor() {
+        return authorStringResId;
+    }
+    public String getQuote() {
+        return quoteStringResId;
+    }
+    public String getReference() {
+        return referenceStringResId;
+    }
+    public boolean getIsFavorite() {
+        return isFavorite;
     }
 
     @Override
@@ -95,6 +111,12 @@ public class HeartCardItem extends BindableItem<ItemHeartCardBinding> {
 //                binding.favoriteCounter.setVisibility(View.INVISIBLE);
 //            }
         }
+        binding.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickListener.onClick(HeartCardItem.this, position);
+            }
+        });
 
         binding.favorite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,5 +192,9 @@ public class HeartCardItem extends BindableItem<ItemHeartCardBinding> {
 
     public interface OnFavoriteListener {
         void onFavorite(HeartCardItem item, boolean favorite);
+    }
+
+    public interface OnClickListener {
+        void onClick(HeartCardItem item, int position);
     }
 }
