@@ -15,7 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jacob on 3/17/16.
@@ -152,7 +159,43 @@ public class DetailCardViewAdapter extends RecyclerView.Adapter<CardViewHolder> 
 
 
 
-        //Switch image on click with a Snackbar to explain what's happening
+//        TODO: Something like this needs to go here instead of hitting the now defunct SQLite below
+//        private HeartCardItem.OnFavoriteListener onFavoriteListener = new HeartCardItem.OnFavoriteListener() {
+//            @Override
+//            public void onFavorite(final HeartCardItem item, final boolean favorite) {
+//
+//                final DatabaseReference favoriteRef = mQuoteRef.child(item.getQuoteKey() + "/Favorite/");
+//                final DatabaseReference userRef = favoriteRef.child(mUserId);
+//                final Map<String, String> favoriteMap = new HashMap<>();
+//                favoriteMap.put(mUserId, "true");
+//
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        item.setFavorite(favorite);
+//                        item.notifyChanged(HeartCardItem.FAVORITE);
+//
+//                        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                if(dataSnapshot.hasChild(mUserId)) {
+//                                    userRef.removeValue();
+//                                } else {
+//                                    favoriteRef.setValue(favoriteMap);
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(DatabaseError databaseError) {
+//
+//                            }
+//                        });
+//                    }
+//                }, 0);
+//            }
+//        };
+
+
         holder.mFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
